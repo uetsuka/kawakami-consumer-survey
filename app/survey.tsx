@@ -20,6 +20,7 @@ async function submit(){if(count!==12||status!=='editing')return;setStatus('savi
 async function selectGift(value:string){if(giftBusy)return;setGift(value);setGiftSaved(false);setGiftBusy(true);setError('');try{const r=await fetch('/api/responses',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id.current,gift:value})});if(!r.ok)throw new Error('We could not save your gift choice. Please choose again.');setGiftSaved(true);}catch(e){setError((e as Error).message);}finally{setGiftBusy(false);}}
 async function subscribe(e:React.FormEvent){e.preventDefault();setRegisterBusy(true);setError('');try{const r=await fetch('/api/responses',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id.current,email,consent,giftDelivery:true})});const data=await r.json() as {error?:string};if(!r.ok)throw new Error(data.error);setRegistered(true);}catch(e){setError((e as Error).message);}finally{setRegisterBusy(false);}}
 return <main className={`site ${theme}`}>
+<div className="fv-screen">
 <div className="review-bar"><span>DESIGN PREVIEW · Gifts are placeholders</span><nav aria-label="Design variants">{['family','fresh','craft'].map((t,i)=><button key={t} onClick={()=>{setTheme(t);history.replaceState(null,'',`/${t}`)}} aria-pressed={theme===t}>{`0${i+1} ${t==='family'?'Family':t==='fresh'?'Everyday':'Craft'}`}</button>)}</nav></div>
 <header className="masthead"><a href="#top">KAWAKAMI FOODS<span>OKINAWA, JAPAN · SINCE 1958</span></a><span>YOUR VOICE. OUR NEXT CHAPTER.</span></header>
 <section className="fv-stage" id="top">
@@ -30,6 +31,7 @@ return <main className={`site ${theme}`}>
 <div className="fv-heritage"><span>SINCE 1958</span><p><b>68</b> Years</p><small>of Taste &amp; Craftsmanship</small></div>
 </section>
 <div className="fv-start"><button onClick={()=>scroll('q-0')}>Start the survey <ArrowUpRight size={22}/></button><p>12 questions <span>·</span> ~4 minutes</p></div>
+</div>
 <div className="fv-disclosure"><p>Choose your gift after submitting, then enter your email for the download link.</p><small>Preview: gift files and email delivery are not yet available. Time is an estimate.</small></div>
 <div className="survey-top"><div><span>YOUR OKINAWA FOOD SURVEY</span><span>{status==='saved'?'Complete':`${count} of 12 answered`}</span></div><Progress value={count/12*100} aria-label="Questions answered"/></div>
 <div className="survey-body">{questions.slice(0,Math.min(visible+1,12)).map((q,index)=><div key={q.id}>
