@@ -30,3 +30,6 @@
 @media(max-width:360px){.fv-stage{min-height:500px}.fv-heading>span{font-size:16px}.fv-present{width:156px}.fv-present p{font-size:23px}}
 @media(min-width:701px) and (max-height:750px){.fv-stage{height:auto;min-height:670px}}
 @media(max-width:700px){.fv-stage{min-height:540px}}
+.family .fv-present{margin-top:96px}
+.fresh .fv-image{transform:scaleX(-1);object-position:35% 42%}
+@media(max-width:700px){.family .fv-present{margin-top:96px}.family .fv-stage{min-height:610px}.fresh .fv-image{object-position:50% 45%}.fresh .fv-present{width:160px}}
