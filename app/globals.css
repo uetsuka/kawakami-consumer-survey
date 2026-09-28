@@ -33,3 +33,19 @@
 .family .fv-present{margin-top:96px}
 .fresh .fv-image{transform:scaleX(-1);object-position:35% 42%}
 @media(max-width:700px){.family .fv-present{margin-top:96px}.family .fv-stage{min-height:610px}.fresh .fv-image{object-position:50% 45%}.fresh .fv-present{width:160px}}
+/* Keep the family gift panel entirely outside the photograph on phones. */
+@media(max-width:700px){
+ .family .fv-stage{height:auto;min-height:0;max-height:none;display:flex;flex-direction:column;background:#21140d}
+ .family .fv-image{position:relative;inset:auto;display:block;order:0;width:100%;height:clamp(420px,110vw,560px);object-fit:cover;object-position:65% 45%;z-index:0}
+ .family .fv-stage:after{height:clamp(420px,110vw,560px);bottom:auto;z-index:1;background:linear-gradient(180deg,rgba(20,12,8,.72),transparent 45%);pointer-events:none}
+ .family .fv-heading{position:absolute;top:0;left:0;right:0;z-index:2}
+ .family .fv-present{position:relative;order:2;z-index:2;width:100%;margin:0;padding:20px 6%;display:grid;grid-template-columns:28px 1fr;gap:7px 12px;border:0;border-top:1px solid #a68148;background:#21140d;backdrop-filter:none}
+ .family .fv-present>svg{grid-column:1;grid-row:1;align-self:center}
+ .family .fv-present p{grid-column:2;margin:0;font-size:24px;line-height:1.2}
+ .family .fv-present p br{display:none}
+ .family .fv-present p br:after{content:' '}
+ .family .fv-present>span,.family .fv-present small{grid-column:2;margin:0;font-size:14px;line-height:1.5}
+ .family .fv-present>span br,.family .fv-present small br{display:none}
+ .family .fv-heritage{position:relative;order:1;bottom:auto;right:auto;padding:14px 6%;display:flex;align-items:baseline;justify-content:flex-end;flex-wrap:wrap;gap:5px 10px;background:#21140d}
+ .family .fv-heritage>span{font-size:11px}.family .fv-heritage p{font-size:20px;margin:0}.family .fv-heritage b{font-size:30px}.family .fv-heritage small{font-size:14px}
+}

@@ -26,7 +26,7 @@ return <main className={`site ${theme}`}>
 <img className="fv-image" src={theme==='craft'?'/images/craft.jpg':theme==='fresh'?'/images/woman.jpg':'/images/family.jpg'} alt={theme==='craft'?'A tofu craftsman at work in Okinawa':theme==='fresh'?'A woman enjoying tofu':'A smiling baby at a family mealtime'}/>
 {theme==='craft'&&<div className="fv-gold" aria-hidden="true"/>}
 <div className="fv-heading"><p>TRADITIONAL OKINAWAN TOFU</p><h1>A Little <em>Luxury.</em></h1><span>A Taste of Okinawa at Your Table</span></div>
-<div className="fv-present"><Gift size={26}/><p>A gift for<br/>everyone</p><span>Snapchat stickers<br/><i>or</i> a phone wallpaper</span><small>Complete the survey<br/>and choose your gift.</small></div>
+<div className="fv-present"><Gift size={26}/><p>A gift for <br/>everyone</p><span>Snapchat stickers <br/><i>or</i> a phone wallpaper</span><small>Complete the survey <br/>and choose your gift.</small></div>
 <div className="fv-heritage"><span>SINCE 1958</span><p><b>68</b> Years</p><small>of Taste &amp; Craftsmanship</small></div>
 </section>
 <div className="fv-start"><button onClick={()=>scroll('q-0')}>Start the survey <ArrowUpRight size={22}/></button><p>12 questions <span>·</span> ~4 minutes</p></div>
