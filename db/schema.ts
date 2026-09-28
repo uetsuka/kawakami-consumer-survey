@@ -1,0 +1,2 @@
+import {sqliteTable,text,integer} from 'drizzle-orm/sqlite-core';
+export const responses=sqliteTable('responses',{id:text('id').primaryKey(),theme:text('theme').notNull(),answers:text('answers').notNull(),feedback:text('feedback').notNull(),createdAt:integer('created_at').notNull(),gift:text('gift'),email:text('email'),marketingConsent:integer('marketing_consent').notNull().default(0),test:integer('test').notNull().default(0)});
