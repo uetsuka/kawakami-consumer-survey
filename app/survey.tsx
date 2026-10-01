@@ -10,6 +10,30 @@ const products=[{name:'Yushi tofu',jp:'ゆし豆腐',image:'/images/yushi.jpg',t
 export default function Survey({initialTheme}:{initialTheme:string}){
 const [theme,setTheme]=useState(initialTheme),[answers,setAnswers]=useState<Record<string,string[]>>({}),[visible,setVisible]=useState(0),[details,setDetails]=useState<Record<string,string>>({}),[feedback,setFeedback]=useState(''),[status,setStatus]=useState<'editing'|'saving'|'saved'>('editing'),[error,setError]=useState(''),[gift,setGift]=useState(''),[giftSaved,setGiftSaved]=useState(false),[email,setEmail]=useState(''),[consent,setConsent]=useState(false),[registered,setRegistered]=useState(false),[registerBusy,setRegisterBusy]=useState(false),[giftBusy,setGiftBusy]=useState(false);
 const id=useRef(''),timer=useRef<ReturnType<typeof setTimeout>|null>(null),answersRef=useRef(answers);answersRef.current=answers;
+const draftRevision=useRef(0),draftPayload=useRef(''),draftStatus=useRef(status);
+draftStatus.current=status;
+const [autosave,setAutosave]=useState<'idle'|'saving'|'saved'|'error'>('idle');
+useEffect(()=>{
+ if(status!=='editing'||(!Object.keys(answers).length&&!id.current))return;
+ id.current ||=crypto.randomUUID();
+ const revision=++draftRevision.current;
+ const body=JSON.stringify({id:id.current,theme,answers,details,feedback,revision,test:true});
+ draftPayload.current=body;
+ let disposed=false;let retry:ReturnType<typeof setTimeout>|undefined;
+ async function save(){
+  setAutosave('saving');
+  try{const r=await fetch('/api/responses/draft',{method:'POST',headers:{'Content-Type':'application/json'},body,keepalive:true});if(!r.ok)throw new Error();if(!disposed)setAutosave('saved');}
+  catch{if(!disposed){setAutosave('error');retry=setTimeout(save,5000);}}
+ }
+ const pending=setTimeout(save,450);
+ return()=>{disposed=true;clearTimeout(pending);clearTimeout(retry);};
+},[answers,details,feedback,theme,status]);
+useEffect(()=>{
+ const flush=()=>{if(draftStatus.current!=='editing'||!draftPayload.current)return;const blob=new Blob([draftPayload.current],{type:'application/json'});if(!navigator.sendBeacon('/api/responses/draft',blob))void fetch('/api/responses/draft',{method:'POST',headers:{'Content-Type':'application/json'},body:draftPayload.current,keepalive:true}).catch(()=>{});};
+ const hidden=()=>{if(document.visibilityState==='hidden')flush();};
+ window.addEventListener('pagehide',flush);document.addEventListener('visibilitychange',hidden);
+ return()=>{window.removeEventListener('pagehide',flush);document.removeEventListener('visibilitychange',hidden);};
+},[]);
 const count=questions.filter(q=>validAnswer(q,answers[q.id])).length;
 function scroll(target:string){requestAnimationFrame(()=>{const el=document.getElementById(target);el?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});el?.focus({preventScroll:true});});}
 function advance(index:number){if(timer.current)clearTimeout(timer.current);setVisible(v=>Math.max(v,index+1));timer.current=setTimeout(()=>scroll(index===3?'products':index===11?'review':`q-${index+1}`),220);}
@@ -33,6 +57,7 @@ return <main className={`site ${theme}`}>
 <div className="fv-start"><button onClick={()=>scroll('q-0')}>Start the survey <ArrowUpRight size={22}/></button><p>12 questions <span>·</span> ~4 minutes</p></div>
 </div>
 <div className="fv-disclosure"><p>Choose your thank-you gift after completing the survey.</p><small>Preview: gifts are not yet available. Time is an estimate.</small></div>
+<div className="fv-disclosure"><small>Your answers are saved automatically as you go, even if you do not submit the survey, to help us understand product preferences. Please do not include personal or sensitive information.</small>{status==='editing'&&autosave!=='idle'&&<p role="status" aria-live="polite">{autosave==='saved'?'Progress saved':autosave==='saving'?'Saving progress…':'Progress could not be saved. Retrying… Please keep this page open.'}</p>}</div>
 <div className="survey-top"><div><span>YOUR OKINAWA FOOD SURVEY</span><span>{status==='saved'?'Complete':`${count} of 12 answered`}</span></div><Progress value={count/12*100} aria-label="Questions answered"/></div>
 <div className="survey-body">{questions.slice(0,Math.min(visible+1,12)).map((q,index)=><div key={q.id}>
 {index===4&&<section className="product-section" id="products" tabIndex={-1}><div className="section-heading"><p className="eyebrow">FROM OKINAWA TO YOUR TABLE</p><h2>Meet your next<br/><em>little discovery.</em></h2><p>Explore a few ways to enjoy tofu and more. Which one feels like you?</p></div><div className="product-grid">{products.map(p=><article key={p.name}>{p.image?<img src={p.image} alt={p.name} loading="lazy"/>:<div className="product-wordmark"><span>OKARA</span><span>SPOON</span><small>PRODUCT PHOTO TO COME</small></div>}<div className="product-copy"><span className="jp">{p.jp}</span><h3>{p.name}</h3><p>{p.text}</p><p className="serving">{p.serve}</p><small>{p.allergen}</small></div></article>)}</div><button className="text-button" onClick={()=>scroll('q-4')}>Choose your favourite <ArrowUpRight size={18}/></button></section>}

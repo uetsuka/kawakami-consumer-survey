@@ -8,7 +8,10 @@ if(!/^[0-9a-f-]{36}$/.test(p.id)||!['family','fresh','craft'].includes(p.theme)|
 if(p.details!==undefined&&(typeof p.details!=='object'||p.details===null||Array.isArray(p.details)||Object.values(p.details).some(v=>typeof v!=='string'||v.length>500)))return Response.json({error:'Please shorten your additional answers.'},{status:400});
 const details=Object.fromEntries(questions.filter(q=>q.detailWhen&&p.answers[q.id].includes(q.detailWhen)&&p.details?.[q.id]).map(q=>[q.id,p.details[q.id].trim()]));
 const clean={...Object.fromEntries(questions.map(q=>[q.id,p.answers[q.id]])),_details:details,_version:2};
-await database().prepare('INSERT INTO responses (id,theme,answers,feedback,created_at,test) VALUES (?,?,?,?,?,?) ON CONFLICT(id) DO NOTHING').bind(p.id,p.theme,JSON.stringify(clean),p.feedback,Date.now(),p.test===true?1:0).run();
+const now=Date.now();
+await database().prepare(`INSERT INTO responses (id,theme,answers,feedback,created_at,test,status,updated_at,answered_count) VALUES (?,?,?,?,?,?,'submitted',?,12)
+ON CONFLICT(id) DO UPDATE SET theme=excluded.theme,answers=excluded.answers,feedback=excluded.feedback,status='submitted',updated_at=excluded.updated_at,answered_count=12
+WHERE responses.status='in_progress'`).bind(p.id,p.theme,JSON.stringify(clean),p.feedback,now,p.test===true?1:0,now).run();
 return Response.json({id:p.id,saved:true},{status:201});
 }catch(e){console.error('Survey save failed',e instanceof Error?e.message:'Unknown error');return Response.json({error:'We could not save your answers. Please try again. Your answers are still on this page.'},{status:503});}}
 export async function PATCH(request:Request){
