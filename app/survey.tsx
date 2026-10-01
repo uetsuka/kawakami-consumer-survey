@@ -28,7 +28,7 @@ return <main className={`site ${theme}`}>
 {theme==='craft'&&<div className="fv-gold" aria-hidden="true"/>}
 <div className="fv-heading"><p>TRADITIONAL OKINAWAN TOFU</p><h1>A Little <em>Luxury.</em></h1><span>A Taste of Okinawa at Your Table</span></div>
 <div className="fv-present"><Gift size={26}/><p>A gift for <br/>everyone</p><span>Snapchat stickers <br/><i>or</i> a phone wallpaper</span><small>Complete the survey <br/>and choose your gift.</small></div>
-<div className="fv-heritage"><span>SINCE 1958</span><p><b>68</b> Years</p><small>of Taste &amp; Craftsmanship</small></div>
+<div className="fv-heritage heritage-lockup"><span>SINCE 1958</span><p className="heritage-top"><b>68</b> <em>Years</em> <span>of Taste</span></p><p className="heritage-bottom"><span>&amp;</span>Craftsmanship</p></div>
 </section>
 <div className="fv-start"><button onClick={()=>scroll('q-0')}>Start the survey <ArrowUpRight size={22}/></button><p>12 questions <span>·</span> ~4 minutes</p></div>
 </div>
