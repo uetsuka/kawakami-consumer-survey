@@ -112,3 +112,4 @@
  .fv-screen .fv-heading>span{font-size:clamp(16px,4.2vw,22px);max-width:85%}
 }
 @media(max-height:600px){.fv-screen .fv-heading h1{font-size:clamp(30px,8cqh,60px)}}
+.sticker-preview{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:680px;margin:30px auto}.sticker-preview img{width:100%;height:auto}.signup.gift-signup{margin:24px auto 0;padding-top:0;border:0}.gift-signup .next-button{width:100%;margin-top:16px}.gift-skip{margin-top:24px}@media(max-width:480px){.sticker-preview{grid-template-columns:repeat(2,minmax(0,1fr));max-width:320px;gap:8px}}
