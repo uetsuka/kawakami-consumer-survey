@@ -31,9 +31,9 @@ LPとアンケートは同じサイト内にあります。LPの「Start the sur
 
 ## このリポジトリについて
 
-このリポジトリでソースコードを管理しています。GitHub Pagesはこの案内の表示先、LP・アンケート本体は上記の公開サイトです。回答データや回答者のメールアドレスはリポジトリに含めません。
+このリポジトリでソースコードを管理しています。GitHub Pagesの公開URLを開くと、稼働中のLP・アンケートへ自動で移動します。サイト本体と回答保存は上記の公開サイトで動作します。回答データや回答者のメールアドレスはリポジトリに含めません。
 
-- [共有用の案内ページ](https://uetsuka.github.io/kawakami-consumer-survey/)
+- [サイトを開く（GitHub Pages入口）](https://uetsuka.github.io/kawakami-consumer-survey/)
 - [開発・起動手順](DEVELOPMENT.md)
 
 更新日：2026年10月15日
