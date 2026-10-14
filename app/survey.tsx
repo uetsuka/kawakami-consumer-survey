@@ -45,12 +45,12 @@ async function subscribe(e:React.FormEvent){e.preventDefault();setRegisterBusy(t
 return <main className={`site ${theme}`}>
 <div className="fv-screen">
 <div className="review-bar"><span>DESIGN PREVIEW · Gifts are placeholders</span><nav aria-label="Design variants">{['family','fresh','craft'].map((t,i)=><button key={t} onClick={()=>{setTheme(t);history.replaceState(null,'',`/${t}`)}} aria-pressed={theme===t}>{`0${i+1} ${t==='family'?'Family':t==='fresh'?'Everyday':'Craft'}`}</button>)}</nav></div>
-<header className="masthead"><a href="#top">KAWAKAMI FOODS<span>OKINAWA, JAPAN · SINCE 1958</span></a><span>YOUR VOICE. OUR NEXT CHAPTER.</span></header>
+<header className="masthead"><a href="#top">KAWAKAMI FOODS<span>OKINAWA, JAPAN · SINCE 1958</span></a><a className="business-link" href="https://uetsuka.github.io/kawakami-business-survey/" target="_blank" rel="noopener noreferrer" aria-label="For Businesses (opens in a new tab)">For Businesses <ArrowUpRight size={16}/></a></header>
 <section className="fv-stage" id="top">
 <img className="fv-image" src={theme==='craft'?'/images/craft.jpg':theme==='fresh'?'/images/woman.jpg':'/images/family.jpg'} alt={theme==='craft'?'A tofu craftsman at work in Okinawa':theme==='fresh'?'A woman enjoying tofu':'A smiling baby at a family mealtime'}/>
 {theme==='craft'&&<div className="fv-gold" aria-hidden="true"/>}
 <div className="fv-heading"><p>TRADITIONAL OKINAWAN TOFU</p><h1>A Little <em>Luxury.</em></h1><span>A Taste of Okinawa at Your Table</span></div>
-<div className="fv-present"><Gift size={26}/><p>A gift for <br/>everyone</p><span>4 WhatsApp stickers</span><small>Complete the survey <br/>and claim your stickers.</small></div>
+<div className="fv-present reward-card"><p>A gift for everyone</p><img className="reward-preview" src="/images/stickers/reward-preview.jpg" alt="Preview of four Kawakami Foods Shisa stickers: Can!, Makan Time?, Sorry and Take Care" draggable={false}/><span>4 WhatsApp stickers</span><small>Complete the survey and claim your pack.</small></div>
 <div className="fv-heritage heritage-lockup"><span>SINCE 1958</span><p className="heritage-top"><b>68</b> <em>Years</em> <span>of Taste</span></p><p className="heritage-bottom"><span>&amp;</span>Craftsmanship</p></div>
 </section>
 <div className="fv-start"><button onClick={()=>scroll('q-0')}>Start the survey <ArrowUpRight size={22}/></button><p>12 questions <span>·</span> ~4 minutes</p></div>
@@ -70,7 +70,7 @@ return <main className={`site ${theme}`}>
 {giftSkipped?<><h2>Thank you for<br/><em>sharing your thoughts.</em></h2><p>Your survey response is saved.</p><button className="text-button" onClick={()=>setGiftSkipped(false)}>Back to my sticker gift</button></>:<>
 <p className="eyebrow">YOUR WHATSAPP STICKER GIFT</p><h2>One more step<br/><em>to your stickers!</em></h2>
 <p>Get all four Kawakami Foods stickers.<br/>Enter your email for instructions on how to receive your pack.</p>
-<div className="sticker-preview">{['can_i','makan_time','sorry','take_care'].map((name,i)=><img key={name} src={`/images/stickers/${name}.png`} alt={['Can!','Makan Time?','Sorry…','Take Care'][i]}/>)}</div>
+<div className="gift-pack-preview"><img src="/images/stickers/reward-preview.jpg" alt="Watermarked preview of the four Kawakami Foods stickers" draggable={false}/></div>
 <div className="signup gift-signup">{registered?<div role="status"><h3>Your sticker request is saved.</h3><p>This is a preview. No email has been sent.</p></div>:<form onSubmit={subscribe}>
 <label htmlFor="email">Email address</label><input id="email" type="email" autoComplete="email" value={email} required maxLength={254} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" aria-describedby="gift-email-use"/>
 <p id="gift-email-use" className="tiny">We’ll use this address for your sticker gift. Product news is optional.</p>
