@@ -45,7 +45,7 @@ async function subscribe(e:React.FormEvent){e.preventDefault();setRegisterBusy(t
 return <main className={`site ${theme}`}>
 <div className="fv-screen">
 <div className="review-bar"><span>DESIGN PREVIEW · Gifts are placeholders</span><nav aria-label="Design variants">{['family','fresh','craft'].map((t,i)=><button key={t} onClick={()=>{setTheme(t);history.replaceState(null,'',`/${t}`)}} aria-pressed={theme===t}>{`0${i+1} ${t==='family'?'Family':t==='fresh'?'Everyday':'Craft'}`}</button>)}</nav></div>
-<header className="masthead"><a href="#top">KAWAKAMI FOODS<span>OKINAWA, JAPAN · SINCE 1958</span></a><a className="business-link" href="https://uetsuka.github.io/kawakami-business-survey/" target="_blank" rel="noopener noreferrer" aria-label="For Businesses (opens in a new tab)">For Businesses <ArrowUpRight size={16}/></a></header>
+<header className="masthead"><a className="kawakami-brand" href="#top" aria-label="Kawakami Foods, back to top"><img src="/images/kawakami-logo.png" alt="川上食品" width="327" height="73"/><small>KAWAKAMI FOODS</small></a><a className="business-link" href="https://uetsuka.github.io/kawakami-business-survey/" target="_blank" rel="noopener noreferrer" aria-label="For Businesses (opens in a new tab)">For Businesses <ArrowUpRight size={16}/></a></header>
 <section className="fv-stage" id="top">
 <img className="fv-image" src={theme==='craft'?'/images/craft.jpg':theme==='fresh'?'/images/woman.jpg':'/images/family.jpg'} alt={theme==='craft'?'A tofu craftsman at work in Okinawa':theme==='fresh'?'A woman enjoying tofu':'A smiling baby at a family mealtime'}/>
 {theme==='craft'&&<div className="fv-gold" aria-hidden="true"/>}
