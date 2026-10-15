@@ -50,7 +50,7 @@ return <main className={`site ${theme}`}>
 <img className="fv-image" src={theme==='craft'?'/images/craft.jpg':theme==='fresh'?'/images/woman.jpg':'/images/family.jpg'} alt={theme==='craft'?'A tofu craftsman at work in Okinawa':theme==='fresh'?'A woman enjoying tofu':'A smiling baby at a family mealtime'}/>
 {theme==='craft'&&<div className="fv-gold" aria-hidden="true"/>}
 <div className="fv-heading"><p>TRADITIONAL OKINAWAN TOFU</p><h1>A Little <em>Luxury.</em></h1><span>A Taste of Okinawa at Your Table</span></div>
-<div className="fv-present reward-card"><p>A gift for everyone</p><div className="reward-showcase"><img className="reward-use-preview" src="/images/stickers/whatsapp-use-preview.jpg" alt="Usage mockup: a Kawakami Foods Take Care sticker in a WhatsApp conversation" draggable={false}/><img className="reward-pack-mini" src="/images/stickers/reward-preview.jpg" alt="The four-sticker pack: Can!, Makan Time?, Sorry and Take Care" draggable={false}/></div><span>4 WhatsApp stickers</span><small>Complete the survey and claim your pack.</small></div>
+<div className="fv-present reward-card"><p>A gift for everyone</p><div className="reward-showcase"><img className="reward-use-preview" src="/images/stickers/whatsapp-use-v2.jpg" alt="Usage mockup: a Kawakami Foods Take Care sticker in a WhatsApp conversation" draggable={false}/><img className="reward-pack-mini" src="/images/stickers/reward-sample-v2.jpg" alt="SAMPLE preview of the new four-sticker pack: Can!, Makan Time?, Sorry and Take Care" draggable={false}/></div><span>4 WhatsApp stickers</span><small>Complete the survey and claim your pack.</small></div>
 <div className="fv-heritage heritage-lockup"><span>SINCE 1958</span><p className="heritage-top"><b>68</b> <em>Years</em> <span>of Taste</span></p><p className="heritage-bottom"><span>&amp;</span>Craftsmanship</p></div>
 </section>
 <div className="fv-start"><button onClick={()=>scroll('q-0')}>Start the survey <ArrowUpRight size={22}/></button><p>12 questions <span>·</span> ~4 minutes</p></div>
@@ -70,7 +70,7 @@ return <main className={`site ${theme}`}>
 {giftSkipped?<><h2>Thank you for<br/><em>sharing your thoughts.</em></h2><p>Your survey response is saved.</p><button className="text-button" onClick={()=>setGiftSkipped(false)}>Back to my sticker gift</button></>:<>
 <p className="eyebrow">YOUR WHATSAPP STICKER GIFT</p><h2>One more step<br/><em>to your stickers!</em></h2>
 <p>Get all four Kawakami Foods stickers.<br/>Enter your email for instructions on how to receive your pack.</p>
-<div className="gift-pack-preview"><img src="/images/stickers/reward-preview.jpg" alt="Watermarked preview of the four Kawakami Foods stickers" draggable={false}/></div>
+<div className="gift-pack-preview"><img src="/images/stickers/reward-sample-v2.jpg" alt="SAMPLE preview of the new four Kawakami Foods stickers" draggable={false}/></div>
 <div className="signup gift-signup">{registered?<div role="status"><h3>Your sticker request is saved.</h3><p>This is a preview. No email has been sent.</p></div>:<form onSubmit={subscribe}>
 <label htmlFor="email">Email address</label><input id="email" type="email" autoComplete="email" value={email} required maxLength={254} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" aria-describedby="gift-email-use"/>
 <p id="gift-email-use" className="tiny">We’ll use this address for your sticker gift. Product news is optional.</p>
