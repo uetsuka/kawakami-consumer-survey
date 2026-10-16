@@ -5,8 +5,8 @@ export function useDraftAutosave(endpoint:string,id:MutableRefObject<string>,pay
  const [state,setState]=useState<'idle'|'saving'|'saved'|'error'>('idle');
  const current=useRef({endpoint,body:'',active:false}),revision=useRef(0);const serialized=JSON.stringify(payload);
  useEffect(()=>{
-  current.current.active=active&&hasInput;current.current.endpoint=endpoint;
-  if(!active||!hasInput)return;
+  current.current.active=active&&(hasInput||!!id.current);current.current.endpoint=endpoint;
+  if(!active||(!hasInput&&!id.current))return;
   id.current ||=crypto.randomUUID();revision.current=Math.max(Date.now(),revision.current+1);
   const body=JSON.stringify({...JSON.parse(serialized),id:id.current,revision:revision.current});current.current.body=body;
   let disposed=false,retry:ReturnType<typeof setTimeout>|undefined;
