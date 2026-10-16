@@ -56,7 +56,7 @@ return <main className={`site ${theme}`}>
 </section>
 <div className="fv-start"><button onClick={()=>scroll('q-0')}>Start the survey <ArrowUpRight size={22}/></button><p>{questions.length} questions <span>·</span> ~5 minutes</p></div>
 </div>
-<div className="fv-disclosure"><p>A little Okinawan character for your everyday chats.</p><small>Estimated survey time: about 5 minutes.</small></div>
+<div className="fv-disclosure"><p>A little Okinawan character for your everyday chats.</p></div>
 <div className="fv-disclosure"><small>Your answers are saved automatically as you go, even if you do not submit the survey, to help us understand product preferences. Please do not include personal or sensitive information.</small>{status==='editing'&&autosave!=='idle'&&<p role="status" aria-live="polite">{autosave==='saved'?'Progress saved':autosave==='saving'?'Saving progress…':'Progress could not be saved. Retrying… Please keep this page open.'}</p>}</div>
 <div className="survey-top"><div><span>YOUR OKINAWA FOOD SURVEY</span><span>{status==='saved'?'Complete':`${count} of ${questions.length} answered`}</span></div><Progress value={count/questions.length*100} aria-label="Questions answered"/></div>
 <div className="survey-body">{questions.slice(0,Math.min(visible+1,questions.length)).map((q,index)=><div key={q.id}>
