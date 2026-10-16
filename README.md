@@ -13,7 +13,7 @@ LPとアンケートは同じサイト内にあります。LPの「Start the sur
 | 02 Everyday｜日常の食体験 | [Everyday LP](https://kawakami-consumer-survey.chiekouetsuka.chatgpt.site/fresh) | [Everyday アンケート](https://kawakami-consumer-survey.chiekouetsuka.chatgpt.site/fresh#q-0) |
 | 03 Craft｜歴史と職人の技 | [Craft LP](https://kawakami-consumer-survey.chiekouetsuka.chatgpt.site/craft) | [Craft アンケート](https://kawakami-consumer-survey.chiekouetsuka.chatgpt.site/craft#q-0) |
 
-3案の質問内容は共通です。英語・全12問、所要時間の目安は約4分です。
+3案の質問内容は共通です。英語・全14問、所要時間の目安は約5分です。末尾に性別と職業・役職の設問を設け、いずれも「回答しない」を選択できます。職業は所得の直接測定ではなく、購買意向を比較する属性として扱います。
 
 ## 確認できる内容
 

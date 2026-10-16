@@ -14,7 +14,7 @@ export async function POST(request:Request){
     const answered=questions.filter(q=>validAnswer(q,p.answers[q.id]));
     // An empty page view is not a response. An emptied existing draft may still update.
     const details=Object.fromEntries(questions.filter(q=>q.detailWhen&&p.answers[q.id]?.includes(q.detailWhen)&&p.details?.[q.id]).map(q=>[q.id,p.details[q.id].trim()]));
-    const clean={...Object.fromEntries(answered.map(q=>[q.id,p.answers[q.id]])),_details:details,_version:2};
+    const clean={...Object.fromEntries(answered.map(q=>[q.id,p.answers[q.id]])),_details:details,_version:3};
     const now=Date.now();
     await database().prepare(`INSERT INTO responses (id,theme,answers,feedback,created_at,test,status,updated_at,answered_count,revision)
       VALUES (?,?,?,?,?,?,'in_progress',?,?,?)

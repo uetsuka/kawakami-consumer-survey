@@ -211,7 +211,7 @@ export const questions:Question[]=[
   },
   {
     "id": "channel",
-    "section": "One last question",
+    "section": "Where to buy",
     "title": "Where would you prefer to buy or order these products?",
     "max": 2,
     "options": [
@@ -229,6 +229,41 @@ export const questions:Question[]=[
     ],
     "detailWhen": "Other",
     "detailLabel": "Please tell us more."
+  },
+  {
+    "id": "gender",
+    "section": "A little about you",
+    "title": "What is your gender?",
+    "options": [
+      "Female",
+      "Male",
+      "Non-binary",
+      "Another gender",
+      "Prefer not to say"
+    ]
+  },
+  {
+    "id": "occupation",
+    "section": "A little about you",
+    "title": "Which best describes your current main occupation or role?",
+    "hint": "Choose your main role. If you are a business owner, select that option rather than an employee role.",
+    "options": [
+      "Company employee — non-management role",
+      "Manager — team leader or department manager",
+      "Senior executive — director or C-suite",
+      "Business owner / entrepreneur",
+      "Self-employed professional / freelancer",
+      "Public-sector / non-profit employee — non-management role",
+      "Part-time / casual worker — non-management role",
+      "Student",
+      "Homemaker / full-time caregiver",
+      "Retired",
+      "Not currently employed",
+      "Other",
+      "Prefer not to say"
+    ],
+    "detailWhen": "Other",
+    "detailLabel": "Please describe your occupation or role (optional)."
   }
 ];
 export function validAnswer(q:Question,value:unknown):value is string[]{return Array.isArray(value)&&value.length>0&&value.length<=(q.max||1)&&new Set(value).size===value.length&&value.every(v=>typeof v==='string'&&q.options.includes(v))&&!(value.length>1&&value.some(v=>q.exclusive?.includes(v)));}
