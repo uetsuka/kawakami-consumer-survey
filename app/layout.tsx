@@ -4,9 +4,6 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "A Little Taste of Okinawa | Kawakami Foods Survey",
   description: "12 questions. About 4 minutes. Share your thoughts on Okinawan food and choose a digital thank-you gift.",
-  other: {
-    "codex-preview": "development",
-  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
