@@ -1,5 +1,6 @@
 import {database} from '@/lib/storage';
 import {questions,validAnswer} from '@/lib/questions';
+import {grant} from '@/lib/sticker-access';
 export async function POST(request:Request){
 if(request.headers.get('origin')&&request.headers.get('origin')!==new URL(request.url).origin)return Response.json({error:'Request not allowed'},{status:403});
 if(!request.headers.get('content-type')?.includes('application/json'))return Response.json({error:'JSON required'},{status:415});
@@ -25,5 +26,6 @@ try{
  if(typeof p.consent!=='boolean'||email.length>254||!/^\S+@\S+\.\S+$/.test(email))return Response.json({error:'Enter a valid email address.'},{status:400});
  const r=await database().prepare("UPDATE responses SET gift='whatsapp',email=?,marketing_consent=?,updated_at=? WHERE id=? AND status='submitted'").bind(email,p.consent?1:0,Date.now(),p.id).run();
  if(!r.meta.changes)return Response.json({error:'Please submit your survey before requesting your stickers.'},{status:409});
- return Response.json({saved:true,delivery:'on_page',stickerUrl:'https://sticker.ly/s/OE307I'});
+ const token=await grant(p.id);const secure=new URL(request.url).protocol==='https:'?'; Secure':'';
+ return Response.json({saved:true,delivery:'download',downloads:['can','makan','sorry','takecare'].map(name=>({name,url:`/api/stickers/${name}.png`}))},{headers:{'Cache-Control':'no-store','Set-Cookie':`sticker_gift=${token}; HttpOnly; SameSite=Lax; Path=/api/stickers; Max-Age=604800${secure}`}});
 }catch{return Response.json({error:'Could not save your sticker request. Please try again.'},{status:503});}}
