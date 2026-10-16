@@ -6,35 +6,13 @@ import {Progress} from '@/components/ui/progress';
 import {Gift,ArrowUpRight,Check,ArrowLeft,Clock,LockKeyhole} from 'lucide-react';
 import {questions,validAnswer} from '@/lib/questions';
 import {StickerGift} from '@/components/sticker-gift';
+import {useDraftAutosave} from '@/lib/use-draft-autosave';
 
 const products=[{"name":"Yushi tofu","jp":"ゆし豆腐","image":"/images/yushi.jpg","text":"Soft tofu curds for a quick warm meal. Enjoy with an Okara Spoon and optional spring onions and grated ginger.","serve":"3–5 min (estimate). Follow the pack instructions; heat in the original container only when it is suitable for heating, otherwise use a microwave-safe dish. Enjoy with an Okara Spoon. Add spring onions and grated ginger if you like. For busy parents, including households with a baby.","allergen":"Contains soy. Okara Spoon contains wheat, egg and soy."},{"name":"Shima tofu","jp":"島豆腐","image":"/images/shima.webp","text":"Firm Okinawan tofu for a quick pan-fry. Season to taste, scatter with spring onions, and add cabbage or carrots if you like.","serve":"3–10 min (estimate). Drain, cut into bite-sized pieces and pan-fry in a little oil. Season to taste and scatter with spring onions. Add cabbage or carrots if you like.","allergen":"Contains soy."},{"name":"Atsuage","jp":"厚揚げ","image":"/images/atsuage.webp","text":"Pan-seared tofu steak with a simple soy sauce, water and sugar sauce, made with plant-based ingredients.","serve":"3–10 min (estimate). Pat dry and pan-sear both sides in vegetable oil until heated through. Simmer soy sauce, water and a little sugar, then pour over the tofu.","allergen":"Contains soy."},{"name":"Okara spoon","jp":"おからスプーン","image":"/images/okara-spoon.jpg","text":"An edible spoon made with okara from tofu-making. Enjoy with dessert and explore food and ingredients together.","serve":"2–5 min to serve. Add to a dessert just before serving. A playful opportunity for parents and children to talk about food and its ingredients.","allergen":"Contains wheat, egg and soy."}];
 export default function Survey({initialTheme}:{initialTheme:string}){
 const [theme,setTheme]=useState(initialTheme),[answers,setAnswers]=useState<Record<string,string[]>>({}),[visible,setVisible]=useState(0),[details,setDetails]=useState<Record<string,string>>({}),[feedback,setFeedback]=useState(''),[status,setStatus]=useState<'editing'|'saving'|'saved'>('editing'),[error,setError]=useState(''),[email,setEmail]=useState(''),[consent,setConsent]=useState(false),[registered,setRegistered]=useState(false),[registerBusy,setRegisterBusy]=useState(false),[giftSkipped,setGiftSkipped]=useState(false);
 const id=useRef(''),timer=useRef<ReturnType<typeof setTimeout>|null>(null),answersRef=useRef(answers);answersRef.current=answers;
-const draftRevision=useRef(0),draftPayload=useRef(''),draftStatus=useRef(status);
-draftStatus.current=status;
-const [autosave,setAutosave]=useState<'idle'|'saving'|'saved'|'error'>('idle');
-useEffect(()=>{
- if(status!=='editing'||(!Object.keys(answers).length&&!id.current))return;
- id.current ||=crypto.randomUUID();
- const revision=++draftRevision.current;
- const body=JSON.stringify({id:id.current,theme,answers,details,feedback,revision,test:false});
- draftPayload.current=body;
- let disposed=false;let retry:ReturnType<typeof setTimeout>|undefined;
- async function save(){
-  setAutosave('saving');
-  try{const r=await fetch('/api/responses/draft',{method:'POST',headers:{'Content-Type':'application/json'},body,keepalive:true});if(!r.ok)throw new Error();if(!disposed)setAutosave('saved');}
-  catch{if(!disposed){setAutosave('error');retry=setTimeout(save,5000);}}
- }
- const pending=setTimeout(save,450);
- return()=>{disposed=true;clearTimeout(pending);clearTimeout(retry);};
-},[answers,details,feedback,theme,status]);
-useEffect(()=>{
- const flush=()=>{if(draftStatus.current!=='editing'||!draftPayload.current)return;const blob=new Blob([draftPayload.current],{type:'application/json'});if(!navigator.sendBeacon('/api/responses/draft',blob))void fetch('/api/responses/draft',{method:'POST',headers:{'Content-Type':'application/json'},body:draftPayload.current,keepalive:true}).catch(()=>{});};
- const hidden=()=>{if(document.visibilityState==='hidden')flush();};
- window.addEventListener('pagehide',flush);document.addEventListener('visibilitychange',hidden);
- return()=>{window.removeEventListener('pagehide',flush);document.removeEventListener('visibilitychange',hidden);};
-},[]);
+const autosave=useDraftAutosave('/api/responses/draft',id,{theme,answers,details,feedback,test:false},status!=='saved',!!Object.keys(answers).length||!!feedback.trim()||!!Object.values(details).some(Boolean));
 const count=questions.filter(q=>validAnswer(q,answers[q.id])).length;
 function scroll(target:string){requestAnimationFrame(()=>{const el=document.getElementById(target);el?.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth',block:'start'});el?.focus({preventScroll:true});});}
 function advance(index:number){if(timer.current)clearTimeout(timer.current);setVisible(v=>Math.max(v,index+1));timer.current=setTimeout(()=>scroll(index===3?'products':index===questions.length-1?'review':`q-${index+1}`),220);}
