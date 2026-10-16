@@ -25,5 +25,5 @@ try{
  if(typeof p.consent!=='boolean'||email.length>254||!/^\S+@\S+\.\S+$/.test(email))return Response.json({error:'Enter a valid email address.'},{status:400});
  const r=await database().prepare("UPDATE responses SET gift='whatsapp',email=?,marketing_consent=?,updated_at=? WHERE id=? AND status='submitted'").bind(email,p.consent?1:0,Date.now(),p.id).run();
  if(!r.meta.changes)return Response.json({error:'Please submit your survey before requesting your stickers.'},{status:409});
- return Response.json({saved:true,delivery:'not_configured'});
+ return Response.json({saved:true,delivery:'on_page',stickerUrl:'https://sticker.ly/s/OE307I'});
 }catch{return Response.json({error:'Could not save your sticker request. Please try again.'},{status:503});}}

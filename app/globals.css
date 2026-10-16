@@ -125,3 +125,4 @@
 .fv-screen .masthead .kawakami-brand small{display:block;margin-top:5px;font:600 .65rem/1.2 Arial,sans-serif;letter-spacing:.14em;color:#f6f0e5}
 @media(max-width:750px){.fv-screen .masthead{padding-inline:4%;gap:8px;min-height:70px}.kawakami-brand img{width:170px}.fv-screen .masthead .kawakami-brand small{font-size:.58rem;letter-spacing:.12em;margin-top:4px}}
 @media(max-width:340px){.kawakami-brand img{width:140px}.fv-screen .masthead .kawakami-brand small{font-size:.54rem}}
+.sticker-open{display:flex;width:100%;justify-content:center;align-items:center;gap:10px;margin-top:20px;text-decoration:none}.gift-signup{scroll-margin-top:100px}

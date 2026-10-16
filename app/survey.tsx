@@ -13,6 +13,7 @@ const id=useRef(''),timer=useRef<ReturnType<typeof setTimeout>|null>(null),answe
 const draftRevision=useRef(0),draftPayload=useRef(''),draftStatus=useRef(status);
 draftStatus.current=status;
 const [autosave,setAutosave]=useState<'idle'|'saving'|'saved'|'error'>('idle');
+const [stickerUrl,setStickerUrl]=useState('');
 useEffect(()=>{
  if(status!=='editing'||(!Object.keys(answers).length&&!id.current))return;
  id.current ||=crypto.randomUUID();
@@ -41,10 +42,10 @@ function choose(index:number,value:string,auto=true){if(status!=='editing')retur
 useEffect(()=>()=>{if(timer.current)clearTimeout(timer.current)},[]);
 useEffect(()=>{const ctx=(document as unknown as {modelContext?:{registerTool:(tool:unknown,options:unknown)=>void}}).modelContext;if(!ctx)return;const ctl=new AbortController();try{ctx.registerTool({name:'get_survey_state',description:'Read the current questionnaire answers and progress. Does not submit data.',inputSchema:{type:'object',properties:{},additionalProperties:false},annotations:{readOnlyHint:true},execute:()=>({answers:answersRef.current,questionCount:12})},{signal:ctl.signal});}catch{}return()=>ctl.abort();},[]);
 async function submit(){if(count!==12||status!=='editing')return;setStatus('saving');setError('');id.current ||=crypto.randomUUID();try{const r=await fetch('/api/responses',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id.current,theme,answers,details,feedback,test:true})});const data=await r.json() as {error?:string};if(!r.ok)throw new Error(data.error);setStatus('saved');scroll('gifts');}catch(e){setStatus('editing');setError(e instanceof Error?e.message:'Unable to save. Please try again.');}}
-async function subscribe(e:React.FormEvent){e.preventDefault();setRegisterBusy(true);setError('');try{const r=await fetch('/api/responses',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id.current,email,consent,giftDelivery:true})});const data=await r.json() as {error?:string};if(!r.ok)throw new Error(data.error);setRegistered(true);}catch(e){setError((e as Error).message);}finally{setRegisterBusy(false);}}
+async function subscribe(e:React.FormEvent){e.preventDefault();setRegisterBusy(true);setError('');try{const r=await fetch('/api/responses',{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({id:id.current,email,consent,giftDelivery:true})});const data=await r.json() as {error?:string;stickerUrl?:string};if(!r.ok)throw new Error(data.error);if(!data.stickerUrl)throw new Error('Please try again to open your sticker pack.');setStickerUrl(data.stickerUrl);setRegistered(true);scroll('sticker-signup');}catch(e){setError((e as Error).message);}finally{setRegisterBusy(false);}}
 return <main className={`site ${theme}`}>
 <div className="fv-screen">
-<div className="review-bar"><span>DESIGN PREVIEW · Gifts are placeholders</span><nav aria-label="Design variants">{['family','fresh','craft'].map((t,i)=><button key={t} onClick={()=>{setTheme(t);history.replaceState(null,'',`/${t}`)}} aria-pressed={theme===t}>{`0${i+1} ${t==='family'?'Family':t==='fresh'?'Everyday':'Craft'}`}</button>)}</nav></div>
+<div className="review-bar"><span>DESIGN PREVIEW</span><nav aria-label="Design variants">{['family','fresh','craft'].map((t,i)=><button key={t} onClick={()=>{setTheme(t);history.replaceState(null,'',`/${t}`)}} aria-pressed={theme===t}>{`0${i+1} ${t==='family'?'Family':t==='fresh'?'Everyday':'Craft'}`}</button>)}</nav></div>
 <header className="masthead"><a className="kawakami-brand" href="#top" aria-label="Kawakami Foods, back to top"><img src="/images/kawakami-logo.png" alt="川上食品" width="327" height="73"/><small>KAWAKAMI FOODS</small></a><a className="business-link" href="https://uetsuka.github.io/kawakami-business-survey/" target="_blank" rel="noopener noreferrer" aria-label="For Businesses (opens in a new tab)">For Businesses <ArrowUpRight size={16}/></a></header>
 <section className="fv-stage" id="top">
 <img className="fv-image" src={theme==='craft'?'/images/craft.jpg':theme==='fresh'?'/images/woman.jpg':'/images/family.jpg'} alt={theme==='craft'?'A tofu craftsman at work in Okinawa':theme==='fresh'?'A woman enjoying tofu':'A smiling baby at a family mealtime'}/>
@@ -55,7 +56,7 @@ return <main className={`site ${theme}`}>
 </section>
 <div className="fv-start"><button onClick={()=>scroll('q-0')}>Start the survey <ArrowUpRight size={22}/></button><p>12 questions <span>·</span> ~4 minutes</p></div>
 </div>
-<div className="fv-disclosure"><p>A little Okinawan character for your everyday chats.</p><small>Preview: gifts are not yet available. Time is an estimate.</small></div>
+<div className="fv-disclosure"><p>A little Okinawan character for your everyday chats.</p><small>Estimated survey time: about 4 minutes.</small></div>
 <div className="fv-disclosure"><small>Your answers are saved automatically as you go, even if you do not submit the survey, to help us understand product preferences. Please do not include personal or sensitive information.</small>{status==='editing'&&autosave!=='idle'&&<p role="status" aria-live="polite">{autosave==='saved'?'Progress saved':autosave==='saving'?'Saving progress…':'Progress could not be saved. Retrying… Please keep this page open.'}</p>}</div>
 <div className="survey-top"><div><span>YOUR OKINAWA FOOD SURVEY</span><span>{status==='saved'?'Complete':`${count} of 12 answered`}</span></div><Progress value={count/12*100} aria-label="Questions answered"/></div>
 <div className="survey-body">{questions.slice(0,Math.min(visible+1,12)).map((q,index)=><div key={q.id}>
@@ -69,13 +70,12 @@ return <main className={`site ${theme}`}>
 {status==='saved'&&<section className="gift-section" id="gifts" tabIndex={-1}>
 {giftSkipped?<><h2>Thank you for<br/><em>sharing your thoughts.</em></h2><p>Your survey response is saved.</p><button className="text-button" onClick={()=>setGiftSkipped(false)}>Back to my sticker gift</button></>:<>
 <p className="eyebrow">YOUR WHATSAPP STICKER GIFT</p><h2>One more step<br/><em>to your stickers!</em></h2>
-<p>Get all four Kawakami Foods stickers.<br/>Enter your email for instructions on how to receive your pack.</p>
+<p>Get all four Kawakami Foods stickers.<br/>Enter your email to unlock your sticker pack.</p>
 <div className="gift-pack-preview"><img src="/images/stickers/reward-sample-v2.jpg" alt="SAMPLE preview of the new four Kawakami Foods stickers" draggable={false}/></div>
-<div className="signup gift-signup">{registered?<div role="status"><h3>Your sticker request is saved.</h3><p>This is a preview. No email has been sent.</p></div>:<form onSubmit={subscribe}>
+<div className="signup gift-signup" id="sticker-signup" tabIndex={-1}>{registered?<div><div role="status"><h3>Your sticker pack is ready!</h3><p>Thank you for sharing your thoughts.</p></div><a className="next-button sticker-open" href={stickerUrl} target="_blank" rel="noopener noreferrer">Open sticker pack <ArrowUpRight size={18}/></a><p className="tiny">Opens in Sticker.ly. Follow the app’s steps to add your pack to WhatsApp.</p></div>:<form onSubmit={subscribe}>
 <label htmlFor="email">Email address</label><input id="email" type="email" autoComplete="email" value={email} required maxLength={254} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" aria-describedby="gift-email-use"/>
 <p id="gift-email-use" className="tiny">We’ll use this address for your sticker gift. Product news is optional.</p>
 <label className="consent"><Checkbox checked={consent} onCheckedChange={v=>setConsent(v===true)}/><span>Also send me product news and Singapore availability updates from Kawakami Foods. (Optional)</span></label>
-<p className="tiny">Preview: try this form with a test email. Email delivery is not active.</p>
 <button className="next-button" disabled={registerBusy}>{registerBusy?'Saving…':'Request my sticker pack'} <ArrowUpRight size={18}/></button>
 {error&&<p className="error" role="alert">{error}</p>}
 </form>}</div>
