@@ -70,12 +70,12 @@ return <main className={`site ${theme}`}>
 {status==='saved'&&<section className="gift-section" id="gifts" tabIndex={-1}>
 {giftSkipped?<><h2>Thank you for<br/><em>sharing your thoughts.</em></h2><p>Your survey response is saved.</p><button className="text-button" onClick={()=>setGiftSkipped(false)}>Back to my sticker gift</button></>:<>
 <p className="eyebrow">YOUR WHATSAPP STICKER GIFT</p><h2>{registered?<>A little character<br/><em>for your chats.</em></>:<>One more step<br/><em>to your stickers!</em></>}</h2>
-{!registered&&<><p>Get all four Kawakami Foods sticker images.<br/>Enter your email to unlock your PNG downloads and illustrated guide.</p><div className="gift-pack-preview"><img src="/images/stickers/reward-sample-v2.jpg" alt="SAMPLE preview of the new four Kawakami Foods stickers" draggable={false}/></div></>}
+{!registered&&<><p>Get all four Kawakami Foods sticker images.<br/>Enter your email to view the images and the illustrated guide to saving them to your photos.</p><div className="gift-pack-preview"><img src="/images/stickers/reward-sample-v2.jpg" alt="SAMPLE preview of the new four Kawakami Foods stickers" draggable={false}/></div></>}
 <div className="signup gift-signup" id="sticker-signup" tabIndex={-1}>{registered?<StickerGift/>:<form onSubmit={subscribe}>
 <label htmlFor="email">Email address</label><input id="email" type="email" autoComplete="email" value={email} required maxLength={254} onChange={e=>setEmail(e.target.value)} placeholder="you@example.com" aria-describedby="gift-email-use"/>
 <p id="gift-email-use" className="tiny">We’ll use this address for your sticker gift. Product news is optional.</p>
 <label className="consent"><Checkbox checked={consent} onCheckedChange={v=>setConsent(v===true)}/><span>Also send me product news and Singapore availability updates from Kawakami Foods. (Optional)</span></label>
-<button className="next-button" disabled={registerBusy}>{registerBusy?'Saving…':'Unlock my sticker images'} <ArrowUpRight size={18}/></button>
+<button className="next-button" disabled={registerBusy}>{registerBusy?'Saving…':'Show my sticker images'} <ArrowUpRight size={18}/></button>
 {error&&<p className="error" role="alert">{error}</p>}
 </form>}</div>
 {!registered&&<button className="text-button gift-skip" disabled={registerBusy} onClick={()=>{setGiftSkipped(true);setError('');scroll('gifts');}}>Finish without my gift</button>}
