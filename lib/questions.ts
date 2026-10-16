@@ -159,7 +159,7 @@ export const questions:Question[]=[
       "Not interested at all",
       "I need more information"
     ],
-    "hint": "Singapore prices and final pack sizes are not yet confirmed. This is your initial impression, not a purchase commitment. If several products interest you, think about the one you would most like to buy.",
+    "hint": "If several products interest you, think about the one you would most like to buy.",
     "detailWhen": "I need more information",
     "detailLabel": "What information would help you decide?"
   },
@@ -185,7 +185,6 @@ export const questions:Question[]=[
       "Nothing else",
       "Other"
     ],
-    "hint": "This asks what information you want. It does not imply certification, weight-loss benefits or disease-prevention effects.",
     "exclusive": [
       "Nothing else"
     ],
@@ -205,7 +204,7 @@ export const questions:Question[]=[
       "Not sure",
       "Other"
     ],
-    "hint": "These are ideas for future development, not confirmed products.",
+    "hint": "Choose the format that would best suit your everyday meals.",
     "detailWhen": "Other",
     "detailLabel": "Please tell us more."
   },

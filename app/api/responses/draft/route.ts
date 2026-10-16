@@ -1,3 +1,4 @@
+import {syncConsumer} from '@/lib/sheet-delivery';
 import {database} from '@/lib/storage';
 import {questions,validAnswer} from '@/lib/questions';
 
@@ -20,6 +21,7 @@ export async function POST(request:Request){
       VALUES (?,?,?,?,?,?,'in_progress',?,?,?)
       ON CONFLICT(id) DO UPDATE SET theme=excluded.theme,answers=excluded.answers,feedback=excluded.feedback,updated_at=excluded.updated_at,answered_count=excluded.answered_count,revision=excluded.revision
       WHERE responses.status='in_progress' AND excluded.revision>responses.revision`).bind(p.id,p.theme,JSON.stringify(clean),p.feedback,now,p.test===true?1:0,now,answered.length,p.revision).run();
+    try{await syncConsumer(p.id);}catch{console.error('Consumer draft sheet sync pending');}
     return Response.json({saved:true,revision:p.revision});
   }catch{console.error('Survey draft save failed');return Response.json({error:'Could not save progress'},{status:503});}
 }
