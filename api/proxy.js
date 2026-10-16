@@ -16,7 +16,7 @@ export default async function handler(req,res){
   const upstream=await fetch("https://kawakami-consumer-survey.chiekouetsuka.chatgpt.site"+'/api/'+path+url.search,{method:req.method,headers,body,signal:AbortSignal.timeout(25000),redirect:'error'});
   res.statusCode=upstream.status;
   for(const key of ['content-type','content-disposition','cache-control']){const value=upstream.headers.get(key);if(value)res.setHeader(key,value);}
-  const cookie=upstream.headers.get('set-cookie');if(cookie)res.setHeader('Set-Cookie',cookie);
+  const cookies=upstream.headers.getSetCookie().filter(value=>value.startsWith('sticker_gift='));if(cookies.length)res.setHeader('Set-Cookie',cookies);
   res.end(Buffer.from(await upstream.arrayBuffer()));
  }catch{res.status(502).json({error:'Please try again.'});}
 }
