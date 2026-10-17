@@ -57,7 +57,7 @@
  .family .fv-heritage small,.fresh .fv-heritage small{font-size:14px}
 }
 /* The first screen budgets header + visual + CTA against the safe viewport. */
-.fv-screen{height:100svh;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto}
+.fv-screen{height:100svh;display:grid;grid-template-rows:auto minmax(0,1fr) auto;--accent:#b94723;--bg:#fff6eb}
 .fv-screen .masthead{width:100%;padding-top:14px;padding-bottom:14px}
 .fv-screen .fv-stage{width:100%;height:100%;min-height:0;max-height:none;container-type:size}
 .fv-screen .fv-start{width:100%;padding:10px 5% calc(10px + env(safe-area-inset-bottom,0px))}
@@ -125,6 +125,12 @@
 @media(max-width:340px){.fv-screen .fv-present.reward-card{width:min(44%,33cqh);padding:5px}.fv-screen .reward-card p{font-size:12px;line-height:1.15}}
 .photo-save-instructions{padding:20px;margin:22px 0;border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--soft);border-radius:8px}.photo-save-instructions h4{font:600 20px/1.35 Arial,sans-serif;margin:0 0 14px}.photo-save-instructions ol{padding-left:22px;margin:0}.photo-save-instructions li{padding-left:4px;margin:12px 0;font:15px/1.65 Arial,sans-serif}.photo-save-instructions>p{font-size:13px;margin:16px 0 0}.download-art img{-webkit-touch-callout:default;user-select:auto}.download-card .hold-image-hint{font:600 12px/1.4 Arial,sans-serif;margin:0;color:#765027}.download-card .open-image{text-decoration:underline}
 /* Shared brand lockup: same artwork and English caption as the corporate LP. */
+.fv-screen .fv-image.fv-scene{opacity:0;transition:opacity 1200ms ease-in-out;filter:saturate(.88) sepia(.08);transform:none;object-position:68% 45%}
+.fv-screen .fv-image.fv-scene.is-active{opacity:1}
+.fv-screen .fv-image.fv-scene-fresh{transform:scaleX(-1);object-position:35% 42%}
+.fv-screen .fv-image.fv-scene-craft{object-position:70% 24%}
+@media(max-width:750px){.fv-screen .fv-image.fv-scene-family{object-position:65% 45%}.fv-screen .fv-image.fv-scene-fresh{object-position:50% 45%}}
+@media(prefers-reduced-motion:reduce){.fv-screen .fv-image.fv-scene{transition:none}}
 .fv-screen .masthead{background:#241711;color:#f6f0e5;min-height:76px;gap:12px;padding-inline:5%;border-bottom:1px solid #3a2921}
 .fv-screen .masthead .kawakami-brand{display:flex;flex-direction:column;align-items:flex-start;gap:0;flex-shrink:0;line-height:1;letter-spacing:0}
 .kawakami-brand img{display:block;width:205px;height:auto;filter:brightness(0) invert(1)}
