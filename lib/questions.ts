@@ -12,6 +12,13 @@ export const questions:Question[]=[
     "detailLabel": "Which country or region do you live in?"
   },
   {
+    "id": "designPreference",
+    "section": "Your favourite design",
+    "title": "Which of these three brochure designs do you like best?",
+    "hint": "Compare the images and concepts, then choose one. You can enlarge each brochure before deciding.",
+    "options": ["Craft — Japanese tradition & trust", "Family — Healthy food to share", "Everyday — A little luxury for yourself", "No preference"]
+  },
+  {
     "id": "breakfast",
     "section": "Your everyday meals",
     "title": "How did you most often have your meals in the past 7 days?",
@@ -263,13 +270,6 @@ export const questions:Question[]=[
     ],
     "detailWhen": "Other",
     "detailLabel": "Please describe your occupation or role (optional)."
-  },
-  {
-    "id": "designPreference",
-    "section": "Your favourite design",
-    "title": "Which of these three brochure designs do you like best?",
-    "hint": "Compare the images and concepts, then choose one. You can enlarge each brochure before deciding.",
-    "options": ["Craft — Japanese tradition & trust", "Family — Healthy food to share", "Everyday — A little luxury for yourself", "No preference"]
   }
 ];
 export function validAnswer(q:Question,value:unknown):value is string[]{return Array.isArray(value)&&value.length>0&&value.length<=(q.max||1)&&new Set(value).size===value.length&&value.every(v=>typeof v==='string'&&q.options.includes(v))&&!(value.length>1&&value.some(v=>q.exclusive?.includes(v)));}
