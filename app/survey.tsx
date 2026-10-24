@@ -37,7 +37,7 @@ return <Localized><main className={`site ${theme}`}>
 {theme==='craft'&&<div className="fv-gold" aria-hidden="true"/>}
 <div className="fv-heading"><p>TRADITIONAL OKINAWAN TOFU</p><h1>A Little <em>Luxury.</em></h1><span>A Taste of Okinawa at Your Table</span></div>
 <div className="fv-present reward-card"><p>A gift for everyone</p><div className="reward-showcase"><img className="reward-use-preview" src="/images/stickers/whatsapp-use-v2.jpg" alt="Usage mockup: a Kawakami Foods Take Care sticker in a WhatsApp conversation" draggable={false}/><div className="reward-sample-strip"><div className="reward-sample-tile"><img src="/images/stickers/reward-sample-v2.jpg" alt="SAMPLE: Can! WhatsApp sticker" draggable={false}/></div><div className="reward-sample-tile"><img src="/images/stickers/reward-sample-v2.jpg" alt="SAMPLE: Makan Time? WhatsApp sticker" draggable={false}/></div></div></div><span>4 WhatsApp stickers</span><small>Complete the survey and claim your pack.</small></div>
-<div className="fv-heritage heritage-lockup"><span>SINCE 1958</span><p className="heritage-top"><b>68</b> <em>Years</em> <span>of Taste</span></p><p className="heritage-bottom"><span>&amp;</span>Craftsmanship</p></div>
+<div className="fv-heritage heritage-lockup"><span>SINCE 1958</span>{language==='ja'?<><p className="heritage-top"><b>68</b><em>年の歩み</em></p><p className="heritage-bottom heritage-ja">おいしさと職人の技</p></>:<><p className="heritage-top"><b>68</b> <em>Years</em> <span>of Taste</span></p><p className="heritage-bottom"><span>&amp;</span>Craftsmanship</p></>}</div>
 </section>
 <div className="fv-start"><button onClick={()=>scroll('q-0')}>Start the survey <ArrowUpRight size={22}/></button><p>{questions.length} questions <span>·</span> ~5 minutes</p></div>
 </div>
