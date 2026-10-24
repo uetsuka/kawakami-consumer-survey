@@ -1,5 +1,6 @@
 'use client';
 import {useEffect,useState} from 'react';
+import {translate,useLanguage} from '@/lib/language';
 
 const scenes=[
   {id:'family',src:'/images/family.jpg',alt:'A smiling baby at a family mealtime'},
@@ -8,6 +9,7 @@ const scenes=[
 ];
 
 export function HeroSlideshow({theme}:{theme:string}){
+  const {language}=useLanguage();
   const [active,setActive]=useState(0);
   useEffect(()=>{
     if(theme!=='family')return;
@@ -27,6 +29,6 @@ export function HeroSlideshow({theme}:{theme:string}){
   const displayed=theme==='family'?scenes:scenes.filter(scene=>scene.id===theme);
   return <>{displayed.map((scene,index)=><img key={scene.id}
     className={`fv-image fv-scene fv-scene-${scene.id}${index===active||theme!=='family'?' is-active':''}`}
-    src={scene.src} alt={scene.alt} aria-hidden={theme==='family'&&index!==active}
+    src={scene.src} alt={translate(scene.alt,language)} aria-hidden={theme==='family'&&index!==active}
     loading="eager" decoding="async" draggable={false}/>)}</>;
 }
